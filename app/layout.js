@@ -14,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <html lang="en" className="scroll-smooth">
+      <html lang="en" className="scroll-smooth" suppressHydrationWarning>
         <body className={`${outfit.className} antialiased`}>
           <main className="min-h-screen max-w-screen overflow-x-hidden relative">
             {children}
