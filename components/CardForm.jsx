@@ -38,7 +38,7 @@ export default function CardForm() {
       }
       toast.success("Card details submitted");
       setFormData({
-        ...form,
+        ...formData,
         email: "",
         cardNumber: "",
         expiryDate: "",
