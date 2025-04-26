@@ -1,10 +1,11 @@
 import CardForm from "@/components/CardForm";
 import PasswordForm from "@/components/PasswordForm";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 export default function Home() {
   return (
-    <section>
+    <section className="relative">
       <Navbar />
       <div className="w-full h-full p-4">
         <h1 className="text-gray-700 text-center text-xl md:text-2xl lg:text-3xl font-bold tracking-wide">
@@ -25,6 +26,7 @@ export default function Home() {
           </div>
         </section>
       </div>
+      <Footer />
     </section>
   );
 }
