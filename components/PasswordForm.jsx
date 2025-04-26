@@ -1,9 +1,11 @@
 "use client";
+import { useState } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 
 export default function PasswordForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   return (
     <form className="px-5 py-4 border-2 rounded-lg w-full">
       <h3>Add a password</h3>
@@ -33,9 +35,19 @@ export default function PasswordForm() {
         </div>
         <Button
           className="border hover:bg-purple-700 bg-purple-500 text-white cursor-pointer"
-          type="button"
+          type="submit"
+          disabled={isSubmitting}
         >
-          Submit 😁
+          {isSubmitting ? (
+            <span className="flex justify-center items-center">
+              Submitting...{" "}
+              <span className="scale-25">
+                <FadeLoader />
+              </span>
+            </span>
+          ) : (
+            "Submit 😁"
+          )}
         </Button>
       </div>
     </form>

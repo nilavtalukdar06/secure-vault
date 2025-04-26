@@ -13,12 +13,6 @@ const cardSchema = new Schema(
     cvv: {
       type: Number,
       required: [true, "CVV is required"],
-      validate: {
-        validator: function (v) {
-          return /^\d{3}$/.test(v.toString());
-        },
-        message: "CVV must be a 3-digit number",
-      },
     },
     createdBy: {
       type: String,

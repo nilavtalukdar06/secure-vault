@@ -14,9 +14,9 @@ export async function POST(request) {
     }
     await cardModel.create({
       createdBy: email.trim(),
-      cardNumber: cardNumber.trim(),
+      cardNumber: cardNumber,
       expiryDate: expiryDate.trim(),
-      cvv: cvv.trim(),
+      cvv: cvv,
     });
     return NextResponse.json(
       {
