@@ -22,17 +22,7 @@ export default function Navbar() {
       </nav>
       <div className="flex gap-x-2 justify-end items-center sm:flex-1">
         <span>Profile</span>
-        {isLoaded ? (
-          <Image
-            src="/avatar.jpg"
-            alt="Avatar"
-            height={30}
-            width={30}
-            className="rounded-full"
-          />
-        ) : (
-          <UserButton />
-        )}
+        <UserButton />
       </div>
     </header>
   );
