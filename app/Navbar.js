@@ -1,24 +1,32 @@
 "use client";
-import Image from "next/image";
-import { UserButton, useUser } from "@clerk/nextjs";
+import MobileMenu from "@/components/MobileMenu";
+import { UserButton } from "@clerk/nextjs";
 import { Shield } from "lucide-react";
+import Link from "next/link";
 
 export default function Navbar() {
-  const reload = () => window.location.reload();
-  const { isLoaded } = useUser();
   return (
     <header className="py-4 border-b border-purple-500 shadow-sm px-5 items-center bg-purple-500 text-white w-full flex justify-between">
-      <h1
-        className="text-xl font-bold tracking-wide flex gap-x-2 sm:flex-1 justify-start cursor-pointer"
-        onClick={reload}
-      >
-        <Shield />
-        Secure Vault
-      </h1>
+      <Link className="sm:flex hidden sm:flex-1 justify-start" href="/">
+        <h1 className="text-xl font-bold tracking-wide flex gap-x-2 cursor-pointer">
+          <Shield />
+          Secure Vault
+        </h1>
+      </Link>
+      <div className="sm:hidden">
+        <MobileMenu />
+      </div>
+
       <nav className="hidden sm:flex gap-x-3 text-sm">
-        <p className="cursor-pointer">Home</p>
-        <p className="cursor-pointer">About</p>
-        <p className="cursor-pointer">Services</p>
+        <Link className="cursor-pointer" href="/">
+          Home
+        </Link>
+        <Link className="cursor-pointer" href="/passwords">
+          Passwords
+        </Link>
+        <Link className="cursor-pointer" href="/cards">
+          Cards
+        </Link>
       </nav>
       <div className="flex gap-x-2 justify-end items-center sm:flex-1">
         <span>Profile</span>
