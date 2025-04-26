@@ -84,13 +84,14 @@ Below is a high-level overview of the data flow in the application, from user in
 ```mermaid
 flowchart TD
     A[User Interacts with UI] --> B[Next.js Page/Component]
-    B --> C[API Route (app/api/*)]
-    C --> D[MongoDB via Mongoose Model]
-    D -->|Success/Failure| E[API Response]
+    B --> C[API Route app/api/routes]
+    C --> D[(MongoDB via Mongoose Model)]
+    D -- Success/Failure --> E[API Response]
     E --> F[UI State Update]
     F --> G[React Hot Toast Notification]
     B --> H[Clerk Authentication]
-    H -->|Session/User| B
+    H -- Session/User --> B
+
     subgraph Database
         D
     end
