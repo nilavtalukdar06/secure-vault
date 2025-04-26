@@ -8,6 +8,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
 import { FadeLoader } from "react-spinners";
@@ -46,6 +57,29 @@ export function CardTable() {
     }
   };
 
+  const deleteCard = async (cardId) => {
+    try {
+      const response = await fetch("/api/delete-card", {
+        method: "DELETE",
+        body: JSON.stringify({
+          cardId: cardId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Card could not be deleted");
+      }
+      toast.success("Card Details Deleted");
+      const newCards = cards.filter((card) => card._id !== cardId);
+      setCards(newCards);
+    } catch (error) {
+      console.error(error);
+      toast.error("Error deleting card");
+    }
+  };
+
   useEffect(() => {
     user && fetchCards(user);
     console.log(cards);
@@ -81,9 +115,35 @@ export function CardTable() {
                 <TableCell>{card.expiryDate}</TableCell>
                 <TableCell className="text-right">{card.cvv}</TableCell>
                 <TableCell className="text-right">
-                  <Button variant="destructive" className="cursor-pointer">
-                    Delete ☠️
-                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="outline" className="cursor-pointer">
+                        Delete 🥲
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently
+                          delete your card from our servers.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel className="cursor-pointer">
+                          Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                          className="bg-red-500 hover:bg-red-700 cursor-pointer"
+                          onClick={() => deleteCard(card._id)}
+                        >
+                          Continue ☠️
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </TableCell>
               </TableRow>
             ))}
