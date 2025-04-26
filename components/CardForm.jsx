@@ -11,10 +11,9 @@ export default function CardForm() {
   const { user } = useUser();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
-    cardNumber: 0,
+    cardNumber: "",
     expiryDate: "",
-    cvv: 0,
+    cvv: "",
   });
 
   const handleSubmit = async (event) => {
@@ -38,8 +37,6 @@ export default function CardForm() {
       }
       toast.success("Card details submitted");
       setFormData({
-        ...formData,
-        email: "",
         cardNumber: "",
         expiryDate: "",
         cvv: "",
@@ -62,8 +59,9 @@ export default function CardForm() {
           <Input
             id="card-number"
             placeholder="Enter your card number"
-            type="number"
+            type="text"
             required
+            value={formData.cardNumber}
             onChange={(e) =>
               setFormData({ ...formData, cardNumber: e.target.value })
             }
@@ -81,6 +79,7 @@ export default function CardForm() {
             id="expiry-date"
             placeholder="Enter your card expiry date"
             required
+            value={formData.expiryDate}
             onChange={(e) =>
               setFormData({ ...formData, expiryDate: e.target.value })
             }
@@ -97,8 +96,9 @@ export default function CardForm() {
           <Input
             id="cvv"
             placeholder="Enter your CVV"
-            type="number"
+            type="text"
             required
+            value={formData.cvv}
             onChange={(e) => setFormData({ ...formData, cvv: e.target.value })}
             disabled={isSubmitting}
           />

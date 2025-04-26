@@ -11,7 +11,7 @@ const cardSchema = new Schema(
       required: [true, "Expiry Date is required"],
     },
     cvv: {
-      type: Number,
+      type: String,
       required: [true, "CVV is required"],
     },
     createdBy: {
