@@ -1,3 +1,4 @@
+"use client";
 import MobileMenu from "@/components/MobileMenu";
 import { UserButton } from "@clerk/nextjs";
 import { Shield } from "lucide-react";
@@ -6,12 +7,15 @@ import Link from "next/link";
 export default function Navbar() {
   return (
     <header className="py-4 border-b border-purple-500 shadow-sm px-5 items-center bg-purple-500 text-white w-full flex justify-between">
-      <Link className="sm:flex hidden sm:flex-1 justify-start" href="/">
+      <div
+        className="sm:flex hidden sm:flex-1 justify-start"
+        onClick={() => window.location.reload()}
+      >
         <h1 className="text-xl font-bold tracking-wide flex gap-x-2 cursor-pointer">
           <Shield />
           Secure Vault
         </h1>
-      </Link>
+      </div>
       <div className="sm:hidden">
         <MobileMenu />
       </div>
