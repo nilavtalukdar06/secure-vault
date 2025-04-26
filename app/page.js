@@ -1,12 +1,10 @@
-import { Button } from "@/components/ui/button";
+import Navbar from "./Navbar";
 
 export default function Home() {
   return (
-    <section className="p-4">
+    <section>
+      <Navbar />
       <h1>NEXT Js</h1>
-      <div className="my-2">
-        <Button variant="outline">Click Me! 😊</Button>
-      </div>
     </section>
   );
 }
