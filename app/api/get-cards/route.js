@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db/mongodb";
-import passwordModel from "@/models/password";
+import cardModel from "@/models/card";
 
 export async function GET(request) {
   try {
@@ -15,10 +15,10 @@ export async function GET(request) {
         { status: 400 }
       );
     }
-    const data = await passwordModel.find({ createdBy: email });
+    const data = await cardModel.find({ createdBy: email });
     return NextResponse.json(
       {
-        passwords: data,
+        cards: data,
       },
       { status: 200 }
     );
