@@ -45,7 +45,6 @@ export default function CardForm() {
         cvv: "",
       });
     } catch (error) {
-      console.error(error);
       toast.error("Error submitting card details");
     } finally {
       setIsSubmitting(false);

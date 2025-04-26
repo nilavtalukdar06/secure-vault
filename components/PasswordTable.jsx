@@ -72,7 +72,6 @@ export function PasswordTable() {
       toast.success("Password Deleted");
       setPasswords(passwords.filter((p) => p._id !== passwordId));
     } catch (error) {
-      console.error(error);
       toast.error("Error deleting password");
     }
   };

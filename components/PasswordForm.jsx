@@ -44,7 +44,6 @@ export default function PasswordForm() {
         password: "",
       });
     } catch (error) {
-      console.error(error);
       toast.error("Error submitting password details");
     } finally {
       setIsSubmitting(false);

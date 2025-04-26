@@ -49,7 +49,6 @@ export function CardTable() {
       }
       setCards(data.cards);
     } catch (error) {
-      console.error(error);
       toast.error("Error fetching cards");
       setError(true);
     } finally {
