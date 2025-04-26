@@ -23,8 +23,7 @@ export default function Navbar() {
       if (!response.ok) {
         throw new Error("Error creating user");
       }
-      const data = await response.json();
-      if (data.status === 201) {
+      if (response.status === 201) {
         toast.success("User created successfully");
       }
     } catch (error) {
@@ -34,7 +33,7 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    createUser();
+    user && createUser();
   }, [user]);
 
   return (
