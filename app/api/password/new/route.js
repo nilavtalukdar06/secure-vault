@@ -12,7 +12,7 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-    await passwordModel.create({
+    await cardModel.create({
       createdBy: userId.trim(),
       website: website.trim(),
       username: username.trim(),
@@ -20,7 +20,7 @@ export async function POST(request) {
     });
     return NextResponse.json(
       {
-        message: "password data inserted successfully",
+        message: "card data inserted successfully",
       },
       { status: 201 }
     );

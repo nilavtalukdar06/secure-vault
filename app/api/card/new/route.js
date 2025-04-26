@@ -5,15 +5,15 @@ import cardModel from "@/models/card";
 export async function POST(request) {
   try {
     await connect();
-    const { userId, cardNumber, expiryDate, cvv } = await request.json();
-    if (!userId || !cardNumber || !expiryDate || !cvv) {
+    const { email, cardNumber, expiryDate, cvv } = await request.json();
+    if (!email || !cardNumber || !expiryDate || !cvv) {
       return NextResponse.json(
         { message: "Missing required fields" },
         { status: 400 }
       );
     }
     await cardModel.create({
-      createdBy: userId.trim(),
+      createdBy: email.trim(),
       cardNumber: cardNumber.trim(),
       expiryDate: expiryDate.trim(),
       cvv: cvv.trim(),

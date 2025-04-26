@@ -15,8 +15,8 @@ const passwordSchema = new Schema(
       required: [true, "Password is required"], // Fixed typo here
     },
     createdBy: {
-      type: Schema.Types.ObjectId,
-      ref: "userModel",
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }

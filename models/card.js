@@ -21,8 +21,8 @@ const cardSchema = new Schema(
       },
     },
     createdBy: {
-      type: Schema.Types.ObjectId,
-      ref: "userModel",
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }
