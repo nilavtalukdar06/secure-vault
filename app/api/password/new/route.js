@@ -5,15 +5,15 @@ import passwordModel from "@/models/password";
 export async function POST(request) {
   try {
     await connect();
-    const { userId, website, username, password } = await request.json();
-    if (!userId || !website || !username || !password) {
+    const { email, website, username, password } = await request.json();
+    if (!email || !website || !username || !password) {
       return NextResponse.json(
         { message: "Missing required fields" },
         { status: 400 }
       );
     }
-    await cardModel.create({
-      createdBy: userId.trim(),
+    await passwordModel.create({
+      createdBy: email.trim(),
       website: website.trim(),
       username: username.trim(),
       password: password.trim(),
