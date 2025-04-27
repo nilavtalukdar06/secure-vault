@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <section className="relative">
       <Navbar />
-      <div className="w-full h-full p-4">
+      <div className="w-full h-full p-4 mb-16 md:mb-0">
         <h1 className="text-gray-700 text-center text-xl md:text-2xl lg:text-3xl font-bold tracking-wide">
           Secure Vault
         </h1>
