@@ -30,6 +30,10 @@ const passwordSchema = new mongoose.Schema(
       type: String,
       required: [true, "password is required"],
     },
+    createdBy: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
