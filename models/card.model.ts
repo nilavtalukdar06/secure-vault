@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 export interface ICard {
   id?: mongoose.Types.ObjectId;
   cardNumber: string;
-  cvv: number;
+  cvv: string;
   expiryDate: string;
   createdBy: string;
   createdAt?: Date;
@@ -18,7 +18,7 @@ const cardSchema = new mongoose.Schema<ICard>(
       match: [/^(?:\d[ -]*?){13,19}$/, "enter a valid card number"],
     },
     cvv: {
-      type: Number,
+      type: String,
       required: [true, "cvv is required"],
       match: [/^\d{3,4}$/, "enter a valid cvv"],
     },

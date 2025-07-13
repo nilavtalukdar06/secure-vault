@@ -11,9 +11,9 @@ const dataSchema = z.object({
     .min(1, { message: "card number is too short" })
     .regex(/^(?:\d[ -]*?){13,19}$/, { message: "card number is not valid" }),
   cvv: z
-    .number()
-    .min(3, { message: "cvv is too short" })
-    .max(4, { message: "cvv is too long" }),
+    .string()
+    .min(1, { message: "cvv is too short" })
+    .regex(/^\d{3,4}$/, { message: "cvv type is invalid" }),
   expiryDate: z
     .string()
     .min(1, { message: "expiry date is too short" })
@@ -30,11 +30,7 @@ export async function POST(request: NextRequest) {
       );
     }
     const data = await request.json();
-    if (
-      !data.cardNumber ||
-      (data.cvv !== null && typeof data.cvv === "number") ||
-      !data.expiry
-    ) {
+    if (!data.cardNumber || !data.cvv || !data.expiryDate) {
       return NextResponse.json(
         { error: "missing required fields" },
         { status: 400 }
@@ -48,7 +44,7 @@ export async function POST(request: NextRequest) {
       );
     }
     const simpleCrypto = new SimpleCrypto(process.env.SECRET_KEY!);
-    const encryptedCvv = simpleCrypto.encrypt(simpleCrypto);
+    const encryptedCvv = simpleCrypto.encrypt(data.cvv);
     await connectToMongodb();
     const result = await Card.create({
       ...data,
