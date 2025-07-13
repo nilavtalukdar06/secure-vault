@@ -1,0 +1,62 @@
+import { auth } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import SimpleCrypto from "simple-crypto-js";
+import connectToMongodb from "@/db/mongodb";
+import Card from "@/models/card.model";
+
+const dataSchema = z.object({
+  cardNumber: z
+    .string()
+    .min(1, { message: "card number is too short" })
+    .regex(/^(?:\d[ -]*?){13,19}$/, { message: "card number is not valid" }),
+  cvv: z
+    .number()
+    .min(3, { message: "cvv is too short" })
+    .max(4, { message: "cvv is too long" }),
+  expiryDate: z
+    .string()
+    .min(1, { message: "expiry date is too short" })
+    .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, { message: "expiry date is invalid" }),
+});
+
+export async function POST(request: NextRequest) {
+  try {
+    const { userId } = await auth();
+    if (!userId) {
+      return NextResponse.json(
+        { error: "user is not authenticated" },
+        { status: 401 }
+      );
+    }
+    const data = await request.json();
+    const parsedData = dataSchema.safeParse(data);
+    if (!parsedData.success) {
+      return NextResponse.json(
+        { error: parsedData.error.flatten() },
+        { status: 400 }
+      );
+    }
+    const simpleCrypto = new SimpleCrypto(process.env.SECRET_KEY!);
+    const encryptedCvv = simpleCrypto.encrypt(simpleCrypto);
+    await connectToMongodb();
+    const result = await Card.create({
+      ...data,
+      cvv: encryptedCvv,
+      createdBy: userId,
+    });
+    return NextResponse.json(
+      {
+        message: "card is created successfully",
+        card: result,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "internal server error" },
+      { status: 500 }
+    );
+  }
+}
