@@ -43,16 +43,13 @@ export async function POST(request: NextRequest) {
     const simpleCrypto = new SimpleCrypto(process.env.SECRET_KEY!);
     const encryptedPassword = simpleCrypto.encrypt(data.password);
     await connectToMongodb();
-    const result = await Password.create({
+    await Password.create({
       ...data,
       password: encryptedPassword,
       createdBy: userId,
     });
     return NextResponse.json(
-      {
-        message: "password created successfully",
-        password: result,
-      },
+      { message: "password created successfully" },
       { status: 201 }
     );
   } catch (error) {

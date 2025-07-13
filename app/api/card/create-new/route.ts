@@ -45,17 +45,16 @@ export async function POST(request: NextRequest) {
     }
     const simpleCrypto = new SimpleCrypto(process.env.SECRET_KEY!);
     const encryptedCvv = simpleCrypto.encrypt(data.cvv);
+    const encryptedCardNumber = simpleCrypto.encrypt(data.cardNumber);
     await connectToMongodb();
-    const result = await Card.create({
-      ...data,
+    await Card.create({
+      cardNumber: encryptedCardNumber,
       cvv: encryptedCvv,
+      expiryDate: data.expiryDate,
       createdBy: userId,
     });
     return NextResponse.json(
-      {
-        message: "card is created successfully",
-        card: result,
-      },
+      { message: "card is created successfully" },
       { status: 201 }
     );
   } catch (error) {
