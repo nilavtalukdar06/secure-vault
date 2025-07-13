@@ -10,7 +10,7 @@ export interface IPassword {
   updatedAt?: Date;
 }
 
-const passwordSchema = new mongoose.Schema(
+const passwordSchema = new mongoose.Schema<IPassword>(
   {
     websiteUrl: {
       type: String,
@@ -39,6 +39,7 @@ const passwordSchema = new mongoose.Schema(
 );
 
 const Password =
-  mongoose.models?.Password || mongoose.model("Password", passwordSchema);
+  mongoose.models?.Password ||
+  mongoose.model<IPassword>("Password", passwordSchema);
 
 export default Password;
