@@ -27,6 +27,12 @@ export async function POST(request: NextRequest) {
       );
     }
     const data = await request.json();
+    if (!data.email || !data.websiteUrl || !data.password) {
+      return NextResponse.json(
+        { error: "missing required fields" },
+        { status: 400 }
+      );
+    }
     const parsedData = dataSchema.safeParse(data);
     if (!parsedData.success) {
       return NextResponse.json(
@@ -44,8 +50,8 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json(
       {
-        message: "user created successfully",
-        user: result,
+        message: "password created successfully",
+        password: result,
       },
       { status: 201 }
     );

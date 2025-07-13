@@ -30,6 +30,16 @@ export async function POST(request: NextRequest) {
       );
     }
     const data = await request.json();
+    if (
+      !data.cardNumber ||
+      (data.cvv !== null && typeof data.cvv === "number") ||
+      !data.expiry
+    ) {
+      return NextResponse.json(
+        { error: "missing required fields" },
+        { status: 400 }
+      );
+    }
     const parsedData = dataSchema.safeParse(data);
     if (!parsedData.success) {
       return NextResponse.json(
