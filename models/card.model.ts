@@ -15,12 +15,10 @@ const cardSchema = new mongoose.Schema<ICard>(
     cardNumber: {
       type: String,
       required: [true, "card number is required"],
-      match: [/^(?:\d[ -]*?){13,19}$/, "enter a valid card number"],
     },
     cvv: {
       type: String,
       required: [true, "cvv is required"],
-      match: [/^\d{3,4}$/, "enter a valid cvv"],
     },
     expiryDate: {
       type: String,

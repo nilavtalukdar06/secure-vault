@@ -51,9 +51,9 @@ export default function CreateCard() {
     try {
       setIsSubmitting(true);
       const response = await axios.post("/api/card/create-new", {
-        cardNumber: values.cardNumber,
-        cvv: values.cvv,
-        expiryDate: values.expiryDate,
+        cardNumber: values.cardNumber.trim(),
+        cvv: values.cvv.trim(),
+        expiryDate: values.expiryDate.trim(),
       });
       console.log(response);
       toast.success("Added Card");
