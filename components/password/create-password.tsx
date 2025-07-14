@@ -40,9 +40,9 @@ export default function CreatePassword() {
     try {
       setIsSubmitting(true);
       await axios.post("/api/password/create-new", {
-        name: values.name,
-        email: values.email,
-        password: values.password,
+        name: values.name.trim(),
+        email: values.email.trim(),
+        password: values.password.trim(),
       });
       toast.success("Added password");
       form.reset();
