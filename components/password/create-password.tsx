@@ -12,7 +12,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ShieldCheck } from "lucide-react";
+import { Loader, ShieldCheck } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is too short" }),
@@ -21,6 +25,8 @@ const formSchema = z.object({
 });
 
 export default function CreatePassword() {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,8 +36,23 @@ export default function CreatePassword() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      setIsSubmitting(true);
+      await axios.post("/api/password/create-new", {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+      });
+      toast.success("Added password");
+      form.reset();
+      router.push("/passwords");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to add the password");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -89,8 +110,21 @@ export default function CreatePassword() {
               </FormItem>
             )}
           />
-          <Button variant="outline" className={"w-full"}>
-            Add Password <ShieldCheck />
+          <Button
+            variant="outline"
+            className={"w-full"}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <span>Adding Password</span>
+            ) : (
+              <span>Add Password</span>
+            )}
+            {isSubmitting ? (
+              <Loader className="animate-spin" />
+            ) : (
+              <ShieldCheck />
+            )}
           </Button>
         </form>
       </Form>
