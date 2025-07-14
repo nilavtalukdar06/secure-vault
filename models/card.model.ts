@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import SimpleCrypto from "simple-crypto-js";
 
 export interface ICard {
   id?: mongoose.Types.ObjectId;
@@ -32,6 +33,14 @@ const cardSchema = new mongoose.Schema<ICard>(
   },
   { timestamps: true }
 );
+
+cardSchema.post("find", (docs: ICard[]) => {
+  const simpleCrypto = new SimpleCrypto(process.env.SECRET_KEY!);
+  docs.forEach((doc) => {
+    doc.cvv = String(simpleCrypto.decrypt(doc.cvv));
+    doc.cardNumber = String(simpleCrypto.decrypt(doc.cardNumber));
+  });
+});
 
 const Card = mongoose.models?.Card || mongoose.model("Card", cardSchema);
 

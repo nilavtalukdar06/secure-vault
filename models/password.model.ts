@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import SimpleCrypto from "simple-crypto-js";
 
 export interface IPassword {
   id?: mongoose.Types.ObjectId;
@@ -33,6 +34,13 @@ const passwordSchema = new mongoose.Schema<IPassword>(
   },
   { timestamps: true }
 );
+
+passwordSchema.post("find", (docs: IPassword[]) => {
+  const simpleCrypto = new SimpleCrypto(process.env.SECRET_KEY!);
+  docs.forEach((element) => {
+    element.password = String(simpleCrypto.decrypt(element.password));
+  });
+});
 
 const Password =
   mongoose.models?.Password ||
