@@ -6,7 +6,6 @@ import connectToMongodb from "@/db/mongodb";
 import Card from "@/models/card.model";
 
 const dataSchema = z.object({
-  name: z.string().min(1, { message: "name is too short" }),
   cardNumber: z
     .string()
     .min(1, { message: "card number is too short" })
@@ -31,7 +30,7 @@ export async function POST(request: NextRequest) {
       );
     }
     const data = await request.json();
-    if (!data.cardNumber || !data.cvv || !data.expiryDate || !data.name) {
+    if (!data.cardNumber || !data.cvv || !data.expiryDate) {
       return NextResponse.json(
         { error: "missing required fields" },
         { status: 400 }

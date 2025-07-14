@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 export interface ICard {
   id?: mongoose.Types.ObjectId;
-  name: string;
   cardNumber: string;
   cvv: string;
   expiryDate: string;
@@ -13,10 +12,6 @@ export interface ICard {
 
 const cardSchema = new mongoose.Schema<ICard>(
   {
-    name: {
-      type: String,
-      required: [true, "card holder name is required"],
-    },
     cardNumber: {
       type: String,
       required: [true, "card number is required"],

@@ -18,7 +18,6 @@ import { useRouter } from "next/navigation";
 import { CreditCard, Loader } from "lucide-react";
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Name is too short" }),
   cardNumber: z
     .string()
     .min(1, { message: "Card number is too short" })
@@ -41,7 +40,6 @@ export default function CreateCard() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
       cardNumber: "",
       cvv: "",
       expiryDate: "",
@@ -56,19 +54,6 @@ export default function CreateCard() {
     <div className="my-12">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Cardholder Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Ex: John Doe" {...field} type="text" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="cardNumber"
