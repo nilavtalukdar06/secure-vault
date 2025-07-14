@@ -1,6 +1,5 @@
 "use client";
 import { UserButton, useUser } from "@clerk/nextjs";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
@@ -18,9 +17,9 @@ export default function Navbar() {
       }`}
     >
       <Link className="flex justify-center items-center gap-x-3" href="/">
-        <div className="shadow-md rounded-lg">
-          <Image src="/logo.svg" height={36} width={36} alt="logo" />
-        </div>
+        <Button variant="outline">
+          <ShieldCheck />
+        </Button>
         <h2 className="hidden sm:block text-2xl text-neutral-600 font-medium">
           Secure Vault
         </h2>

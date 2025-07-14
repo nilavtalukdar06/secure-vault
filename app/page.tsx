@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { CreditCard, ShieldCheck } from "lucide-react";
 import Image from "next/image";
@@ -59,6 +60,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Footer />
     </section>
   );
 }
