@@ -13,7 +13,7 @@ export async function GET() {
       );
     }
     await connectToMongodb();
-    const result = await Card.find({});
+    const result = await Card.find({ createdBy: userId });
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
     console.error(error);

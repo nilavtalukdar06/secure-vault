@@ -13,7 +13,7 @@ export async function GET() {
       );
     }
     await connectToMongodb();
-    const result = await Password.find({});
+    const result = await Password.find({ createdBy: userId });
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
     console.error(error);
