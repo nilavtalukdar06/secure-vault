@@ -33,12 +33,12 @@ export default function Navbar() {
             <UserButton.Link
               href="/cards"
               label="My Cards"
-              labelIcon={<CreditCard />}
+              labelIcon={<CreditCard size={14} />}
             ></UserButton.Link>
             <UserButton.Link
               href="/passwords"
               label="My Passwords"
-              labelIcon={<ShieldCheck />}
+              labelIcon={<ShieldCheck size={14} />}
             ></UserButton.Link>
           </UserButton.MenuItems>
         </UserButton>
