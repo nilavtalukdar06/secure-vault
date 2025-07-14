@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CreditCard, Loader } from "lucide-react";
+import axios from "axios";
 
 const formSchema = z.object({
   cardNumber: z
@@ -46,8 +47,24 @@ export default function CreateCard() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      setIsSubmitting(true);
+      const response = await axios.post("/api/card/create-new", {
+        cardNumber: values.cardNumber,
+        cvv: values.cvv,
+        expiryDate: values.expiryDate,
+      });
+      console.log(response);
+      toast.success("Added Card");
+      form.reset();
+      router.push("/cards");
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to add card");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
