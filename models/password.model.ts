@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export interface IPassword {
   id?: mongoose.Types.ObjectId;
-  websiteUrl: string;
+  name: string;
   email: string;
   password: string;
   createdBy: string;
@@ -12,13 +12,9 @@ export interface IPassword {
 
 const passwordSchema = new mongoose.Schema<IPassword>(
   {
-    websiteUrl: {
+    name: {
       type: String,
       required: [true, "website url is required"],
-      match: [
-        /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}([\/\w.-]*)*\/?$/,
-        "enter a valid website url",
-      ],
     },
     email: {
       type: String,

@@ -8,13 +8,7 @@ import SimpleCrypto from "simple-crypto-js";
 const dataSchema = z.object({
   email: z.string().email({ message: "email is not valid" }),
   password: z.string().min(1, { message: "password is too short" }),
-  websiteUrl: z
-    .string()
-    .min(1)
-    .regex(
-      /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}([\/\w.-]*)*\/?$/,
-      { message: "website url is not valid" }
-    ),
+  name: z.string().min(1, { message: "name is too short" }),
 });
 
 export async function POST(request: NextRequest) {
@@ -27,7 +21,7 @@ export async function POST(request: NextRequest) {
       );
     }
     const data = await request.json();
-    if (!data.email || !data.websiteUrl || !data.password) {
+    if (!data.email || !data.name || !data.password) {
       return NextResponse.json(
         { error: "missing required fields" },
         { status: 400 }
