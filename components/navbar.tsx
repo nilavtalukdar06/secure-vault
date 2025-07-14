@@ -3,7 +3,7 @@ import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button";
-import { ChevronRight, CreditCard, ShieldCheck } from "lucide-react";
+import { ChevronRight, CreditCard, ShieldCheck, UserLock } from "lucide-react";
 import { Skeleton } from "./ui/skeleton";
 
 export default function Navbar() {
@@ -17,8 +17,8 @@ export default function Navbar() {
       }`}
     >
       <Link className="flex justify-center items-center gap-x-3" href="/">
-        <Button variant="outline">
-          <ShieldCheck />
+        <Button variant="outline" className="pointer-events-none">
+          <UserLock />
         </Button>
         <h2 className="hidden sm:block text-2xl text-neutral-600 font-medium">
           Secure Vault
