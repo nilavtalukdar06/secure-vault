@@ -3,6 +3,7 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { ClerkProvider } from "@clerk/nextjs";
+import Navbar from "@/components/navbar";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -28,7 +29,8 @@ export default function RootLayout({
     >
       <html lang="en">
         <body className={`${nunito.className} antialiased`}>
-          <main>
+          <main className="max-w-7xl mx-auto px-5">
+            <Navbar />
             {children}
             <Toaster />
           </main>
