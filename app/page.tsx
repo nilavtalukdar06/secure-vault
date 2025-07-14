@@ -1,10 +1,13 @@
+import { Button } from "@/components/ui/button";
+import { CreditCard, ShieldCheck } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <section>
       <div className="overflow-hidden">
-        <div className="w-full mx-auto py-24">
+        <div className="w-full mx-auto pt-24 pb-6">
           <h1 className="font-medium md:font-semibold text-[#131316] text-5xl md:text-6xl">
             <span className="bg-clip-text bg-linear-to-tl from-blue-600 to-violet-600 text-transparent">
               Secure Vault
@@ -18,6 +21,18 @@ export default function Home() {
               confidence, knowing your data is safe and always available when
               you need it.
             </p>
+          </div>
+          <div className="my-8 w-full flex justify-start items-center gap-x-4">
+            <Link href="/add-card">
+              <Button>
+                Add Card <CreditCard size={14} />
+              </Button>
+            </Link>
+            <Link href="/add-password">
+              <Button variant="outline">
+                Add Password <ShieldCheck size={14} />
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
