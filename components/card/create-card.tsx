@@ -2,6 +2,20 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { CreditCard, Loader } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is too short" }),
@@ -22,6 +36,8 @@ const formSchema = z.object({
 });
 
 export default function CreateCard() {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,7 +54,74 @@ export default function CreateCard() {
 
   return (
     <div className="my-12">
-      <p>Create Card</p>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Cardholder Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Ex: John Doe" {...field} type="text" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="cardNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Card Number</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Ex: 3454-1423-xxxx-xxxx"
+                    {...field}
+                    type="text"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="cvv"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Enter CVV</FormLabel>
+                <FormControl>
+                  <Input placeholder="Ex: 123" {...field} type="text" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="expiryDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Enter the expiry date</FormLabel>
+                <FormControl>
+                  <Input placeholder="Ex: xx/xx" {...field} type="text" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button variant="outline" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? "Adding Card" : "Add Card"}
+            {isSubmitting ? (
+              <Loader className="animate-spin" />
+            ) : (
+              <CreditCard />
+            )}
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 }
