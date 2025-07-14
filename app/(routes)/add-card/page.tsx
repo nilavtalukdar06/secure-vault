@@ -1,3 +1,4 @@
+import CreateCard from "@/components/card/create-card";
 import { Button } from "@/components/ui/button";
 import { CreditCard } from "lucide-react";
 
@@ -11,6 +12,7 @@ export default function AddPassword() {
           </Button>
           <h2 className="text-xl font-normal text-gray-600">Add Card</h2>
         </div>
+        <CreateCard />
       </div>
     </section>
   );
