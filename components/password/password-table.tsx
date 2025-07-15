@@ -14,28 +14,28 @@ import Spinner from "../spinner";
 import Error from "../error";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { ICard } from "@/models/card.model";
-import DeleteCard from "./delete-card";
+import { IPassword } from "@/models/password.model";
+import DeletePassword from "./delete-password";
 
-export default function CardTable() {
+export default function PasswordTable() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [cardData, setCardData] = useState<ICard[]>([]);
+  const [passwordData, setPasswordData] = useState<IPassword[]>([]);
 
-  const fetchCards = useCallback(async () => {
+  const fetchPasswords = useCallback(async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get("/api/card/get-cards");
+      const response = await axios.get("/api/password/get-passwords");
       console.log(response.data);
       if (response.data.length === 0) {
-        setCardData([]);
+        setPasswordData([]);
       } else {
-        setCardData([...response.data]);
+        setPasswordData([...response.data]);
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to fetch cards");
+      toast.error("Failed to fetch Passwords");
       setError(true);
     } finally {
       setIsLoading(false);
@@ -43,17 +43,17 @@ export default function CardTable() {
   }, []);
 
   useEffect(() => {
-    fetchCards();
-  }, [fetchCards]);
+    fetchPasswords();
+  }, [fetchPasswords]);
 
-  const filteredData = cardData.filter((card) =>
-    card.cardNumber.includes(searchTerm)
+  const filteredData = passwordData.filter((password) =>
+    password.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div>
       <Input
-        placeholder="Search card by number"
+        placeholder="Search password by website/app name"
         className="max-w-md"
         type="string"
         disabled={isLoading}
@@ -70,32 +70,32 @@ export default function CardTable() {
           </div>
         ) : error ? (
           <div className="max-w-xl">
-            <Error item="cards" />
+            <Error item="passwords" />
           </div>
         ) : (
           <Table>
-            <TableCaption>A list of your recent cards.</TableCaption>
+            <TableCaption>A list of your recent passwords.</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px]">Index</TableHead>
-                <TableHead>CVV</TableHead>
-                <TableHead>Card Number</TableHead>
-                <TableHead>Expiry Date</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>Password</TableHead>
                 <TableHead className="text-right">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredData.map((card, index) => (
+              {filteredData.map((password, index) => (
                 <TableRow key={index + 1}>
                   <TableCell className="font-medium">{index + 1}</TableCell>
-                  <TableCell>{card.cvv}</TableCell>
-                  <TableCell>{card.cardNumber}</TableCell>
-                  <TableCell>{card.expiryDate}</TableCell>
+                  <TableCell>{password.name}</TableCell>
+                  <TableCell>{password.email}</TableCell>
+                  <TableCell>{password.password}</TableCell>
                   <TableCell className="text-right">
-                    <DeleteCard
-                      documentId={card._id.toString()}
-                      setCardData={setCardData}
-                      cardData={cardData}
+                    <DeletePassword
+                      documentId={password._id.toString()}
+                      setPasswordData={setPasswordData}
+                      passwordData={passwordData}
                     />
                   </TableCell>
                 </TableRow>

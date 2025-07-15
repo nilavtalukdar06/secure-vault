@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import SimpleCrypto from "simple-crypto-js";
 
 export interface IPassword {
-  id?: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   name: string;
   email: string;
   password: string;
