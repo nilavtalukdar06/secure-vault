@@ -14,12 +14,10 @@ import Spinner from "../spinner";
 import Error from "../error";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useUser } from "@clerk/nextjs";
 import { ICard } from "@/models/card.model";
 import DeleteCard from "./delete-card";
 
 export default function CardTable() {
-  const { isSignedIn } = useUser();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
