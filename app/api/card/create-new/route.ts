@@ -4,6 +4,7 @@ import { z } from "zod";
 import SimpleCrypto from "simple-crypto-js";
 import connectToMongodb from "@/db/mongodb";
 import Card from "@/models/card.model";
+import arcjet, { tokenBucket } from "@arcjet/next";
 
 const dataSchema = z.object({
   cardNumber: z
@@ -20,6 +21,19 @@ const dataSchema = z.object({
     .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, { message: "expiry date is invalid" }),
 });
 
+const aj = arcjet({
+  key: process.env.ARCJET_KEY!,
+  characteristics: ["userId"],
+  rules: [
+    tokenBucket({
+      mode: "LIVE",
+      refillRate: 5,
+      interval: 5,
+      capacity: 20,
+    }),
+  ],
+});
+
 export async function POST(request: NextRequest) {
   try {
     const { userId } = await auth();
@@ -27,6 +41,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "user is not authenticated" },
         { status: 401 }
+      );
+    }
+    const decision = await aj.protect(request, { userId, requested: 5 });
+    if (decision.isDenied()) {
+      return NextResponse.json(
+        { error: "Too Many Requests", reason: decision.reason },
+        { status: 429 }
       );
     }
     const data = await request.json();

@@ -4,11 +4,25 @@ import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import SimpleCrypto from "simple-crypto-js";
+import arcjet, { tokenBucket } from "@arcjet/next";
 
 const dataSchema = z.object({
   email: z.string().email({ message: "email is not valid" }),
   password: z.string().min(1, { message: "password is too short" }),
   name: z.string().min(1, { message: "name is too short" }),
+});
+
+const aj = arcjet({
+  key: process.env.ARCJET_KEY!,
+  characteristics: ["userId"],
+  rules: [
+    tokenBucket({
+      mode: "LIVE",
+      refillRate: 5,
+      interval: 5,
+      capacity: 20,
+    }),
+  ],
 });
 
 export async function POST(request: NextRequest) {
@@ -18,6 +32,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "user is not authenticated" },
         { status: 401 }
+      );
+    }
+    const decision = await aj.protect(request, { userId, requested: 5 });
+    if (decision.isDenied()) {
+      return NextResponse.json(
+        { error: "Too Many Requests", reason: decision.reason },
+        { status: 429 }
       );
     }
     const data = await request.json();

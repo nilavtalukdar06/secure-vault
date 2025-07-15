@@ -2,6 +2,20 @@ import connectToMongodb from "@/db/mongodb";
 import Password from "@/models/password.model";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse, NextRequest } from "next/server";
+import arcjet, { tokenBucket } from "@arcjet/next";
+
+const aj = arcjet({
+  key: process.env.ARCJET_KEY!,
+  characteristics: ["userId"],
+  rules: [
+    tokenBucket({
+      mode: "LIVE",
+      refillRate: 5,
+      interval: 5,
+      capacity: 20,
+    }),
+  ],
+});
 
 export async function DELETE(request: NextRequest) {
   try {
@@ -10,6 +24,13 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json(
         { error: "user is not authenticated" },
         { status: 401 }
+      );
+    }
+    const decision = await aj.protect(request, { userId, requested: 5 });
+    if (decision.isDenied()) {
+      return NextResponse.json(
+        { error: "Too Many Requests", reason: decision.reason },
+        { status: 429 }
       );
     }
     const documentId = request.nextUrl.searchParams.get("documentId");
