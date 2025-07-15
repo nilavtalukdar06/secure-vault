@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Secure Vault 🔐
+
+> A modern, full-stack password and card manager built with Next.js, MongoDB, and Clerk authentication. Securely store, manage, and retrieve your sensitive information with robust encryption and a beautiful UI.
+
+## Features
+
+- **User Authentication:** Seamless sign-in/sign-up with Clerk.
+- **Password & Card Management:** Add, view, and delete passwords and card details.
+- **End-to-End Encryption:** Sensitive data is encrypted before storage in MongoDB.
+- **Rate Limiting:** API endpoints are protected against abuse.
+- **Responsive UI:** Built with Tailwind CSS and modern React components.
+- **Optimized Fonts:** Uses Vercel's Geist font for a clean look.
+
+---
+
+## Data Flow Diagram
+
+```mermaid
+flowchart TD
+    A[User] -- Login/Register --> B[Clerk Auth]
+    B -- Auth Token --> C[Next.js API Route]
+    C -- Validate & Encrypt Data --> D[Encryption Logic]
+    D -- Store/Retrieve --> E[MongoDB]
+    E -- Encrypted Data --> D
+    D -- Decrypt --> C
+    C -- Response --> A
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the repository:**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+   ```bash
+   git clone https://github.com/your-username/secure-vault.git
+   cd secure-vault
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Install dependencies:**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+   ```bash
+   npm install
+   # or
+   yarn
+   # or
+   pnpm install
+   # or
+   bun install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. **Set up environment variables:**
 
-## Learn More
+   - Copy `.env.example` to `.env.local` and fill in your MongoDB URI, Clerk keys, and encryption secret.
 
-To learn more about Next.js, take a look at the following resources:
+4. **Run the development server:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   npm run dev
+   # or yarn dev / pnpm dev / bun dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. **Open the app:**
+   Visit [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Folder Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/` - Next.js app directory (routes, layouts, API endpoints)
+- `components/` - Reusable UI and logic components
+- `db/` - MongoDB connection logic
+- `models/` - Mongoose models with encryption logic
+- `lib/` - Utility functions
+- `types/` - TypeScript type definitions
+- `public/` - Static assets (icons, images)
+
+---
+
+## Security
+
+- All sensitive data is encrypted before being stored in the database.
+- API endpoints are protected with rate limiting.
+- User authentication is handled by Clerk.
+
+---
+
+## Deployment
+
+Deploy easily on [Vercel](https://vercel.com/) or your preferred platform. See [Next.js deployment docs](https://nextjs.org/docs/app/building-your-application/deploying).
+
+---
+
+## License
+
+MIT
