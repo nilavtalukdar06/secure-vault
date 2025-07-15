@@ -1,3 +1,4 @@
+"use client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,15 +11,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
-import { Trash2Icon } from "lucide-react";
 
 export default function DeleteCard({ documentId }: { documentId: string }) {
   return (
     <AlertDialog>
-      <AlertDialogTrigger>
-        <Button variant="destructive" asChild>
-          Delete <Trash2Icon />
-        </Button>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive">Delete</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -29,12 +27,8 @@ export default function DeleteCard({ documentId }: { documentId: string }) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>
-            <Button variant="outline">Cancel</Button>
-          </AlertDialogCancel>
-          <AlertDialogAction>
-            <Button variant="destructive">Continue</Button>
-          </AlertDialogAction>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
