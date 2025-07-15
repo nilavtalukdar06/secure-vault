@@ -42,7 +42,7 @@ export default function CardTable() {
     } finally {
       setIsLoading(false);
     }
-  }, [isSignedIn]);
+  }, []);
 
   useEffect(() => {
     fetchCards();
