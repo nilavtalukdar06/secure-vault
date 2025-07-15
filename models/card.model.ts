@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import SimpleCrypto from "simple-crypto-js";
 
 export interface ICard {
-  id?: mongoose.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
   cardNumber: string;
   cvv: string;
   expiryDate: string;

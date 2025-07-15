@@ -10,14 +10,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "../ui/button";
-import { Trash2 } from "lucide-react";
 import Spinner from "../spinner";
 import Error from "../error";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useUser } from "@clerk/nextjs";
 import { ICard } from "@/models/card.model";
+import DeleteCard from "./delete-card";
 
 export default function CardTable() {
   const { isSignedIn } = useUser();
@@ -88,9 +87,7 @@ export default function CardTable() {
                   <TableCell>{card.cardNumber}</TableCell>
                   <TableCell>{card.expiryDate}</TableCell>
                   <TableCell className="text-right">
-                    <Button variant="destructive">
-                      Delete <Trash2 />
-                    </Button>
+                    <DeleteCard documentId={card._id.toString()} />
                   </TableCell>
                 </TableRow>
               ))}
