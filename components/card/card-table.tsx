@@ -87,7 +87,11 @@ export default function CardTable() {
                   <TableCell>{card.cardNumber}</TableCell>
                   <TableCell>{card.expiryDate}</TableCell>
                   <TableCell className="text-right">
-                    <DeleteCard documentId={card._id.toString()} />
+                    <DeleteCard
+                      documentId={card._id.toString()}
+                      setCardData={setCardData}
+                      cardData={cardData}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
