@@ -48,14 +48,21 @@ export default function CardTable() {
     fetchCards();
   }, [fetchCards]);
 
+  const filteredData = cardData.filter((card) =>
+    card.cardNumber.includes(searchTerm)
+  );
+
   return (
     <div>
       <Input
         placeholder="Search card by number"
         className="max-w-md"
         type="string"
+        disabled={isLoading}
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+        }}
       />
       <div className="my-6 w-full">
         {isLoading ? (
@@ -80,7 +87,7 @@ export default function CardTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {cardData.map((card, index) => (
+              {filteredData.map((card, index) => (
                 <TableRow key={index + 1}>
                   <TableCell className="font-medium">{index + 1}</TableCell>
                   <TableCell>{card.cvv}</TableCell>
