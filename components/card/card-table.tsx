@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Input } from "../ui/input";
 import {
   Table,
@@ -14,11 +14,40 @@ import { Button } from "../ui/button";
 import { Trash2 } from "lucide-react";
 import Spinner from "../spinner";
 import Error from "../error";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useUser } from "@clerk/nextjs";
+import { ICard } from "@/models/card.model";
 
 export default function CardTable() {
+  const { isSignedIn } = useUser();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [cardData, setCardData] = useState<ICard[]>([]);
+
+  const fetchCards = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get("/api/card/get-cards");
+      console.log(response.data);
+      if (response.data.length === 0) {
+        setCardData([]);
+      } else {
+        setCardData([...response.data]);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to fetch cards");
+      setError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isSignedIn]);
+
+  useEffect(() => {
+    fetchCards();
+  }, [fetchCards]);
 
   return (
     <div>
@@ -52,17 +81,19 @@ export default function CardTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">1</TableCell>
-                <TableCell>013</TableCell>
-                <TableCell>4346-5885-5492-2939</TableCell>
-                <TableCell>03/30</TableCell>
-                <TableCell className="text-right">
-                  <Button variant="destructive">
-                    Delete <Trash2 />
-                  </Button>
-                </TableCell>
-              </TableRow>
+              {cardData.map((card, index) => (
+                <TableRow key={index + 1}>
+                  <TableCell className="font-medium">{index + 1}</TableCell>
+                  <TableCell>{card.cvv}</TableCell>
+                  <TableCell>{card.cardNumber}</TableCell>
+                  <TableCell>{card.expiryDate}</TableCell>
+                  <TableCell className="text-right">
+                    <Button variant="destructive">
+                      Delete <Trash2 />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         )}
